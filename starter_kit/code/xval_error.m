@@ -1,4 +1,4 @@
-function [error] = xval_error(X_lyrics, X_audio, Y, n_folds, K)
+function [error] = xval_error(X_lyrics, X_audio, Y, n_folds)
 % xval_error - cross-validation error.
 %
 % Usage:
@@ -19,7 +19,7 @@ for i = 1:n_folds
     Xt_audio = X_audio(parts ~= i, :);
     Yq = Y(parts == i, :);
     Yt = Y(parts ~= i, :);
-    testRanking = predict_genre(Xt_lyrics, Xq_lyrics, Xt_audio, Xq_audio, Yt, K);
+    testRanking = predict_genre(Xt_lyrics, Xq_lyrics, Xt_audio, Xq_audio, Yt);
     s(i) = rank_loss(testRanking, Yq);
 end
 error = sum(s) / n_folds;

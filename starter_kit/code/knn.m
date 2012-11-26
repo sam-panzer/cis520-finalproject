@@ -7,5 +7,9 @@ Xq = bsxfun(@rdivide, Xq_raw, sum(Xq_raw, 2));
 D = Xq*Xt';
 [~, idx] = sort(D, 2, 'descend');
 ynn = idx(:, 1:K);
-yhat = mode(Yt(ynn), 2);
+yhat = zeros(size(Xq, 1), 10);
+yvals = Yt(ynn);
+for i = 1:10
+    yhat(:,i) = sum(yvals==i, 2) / K;
+end
 end
