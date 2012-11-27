@@ -1,4 +1,4 @@
-function ranks = make_final_prediction(model, example)
+function [ranks] = make_final_prediction(model, examples)
 % Uses your trained model to make a final prediction for a SINGLE example.
 %
 % Usage:
@@ -14,22 +14,25 @@ function ranks = make_final_prediction(model, example)
 % 5 minutes. Your model should be loaded from disk in INIT_MODEL. DO NOT DO
 % ANY TRAINING HERE.
 
-% YOUR CODE GOES HERE
-% THIS IS JUST AN EXAMPLE
-
+N = size(examples, 2);
 % We only take in one example at a time.
-X = make_lyrics_sparse(example, model.vocab);
-X = X./sum(X); 
+X_lyrics = make_lyrics_sparse(examples, model.vocab);
+X_audio = make_audio(examples);
 
-% Find nearest neighbor
-D = model.Xt*X';
-[~,nn] = max(D);
-yhat = model.Yt(nn);
+
+K_lyrics = model.svm_lyrics.kernel(model.Xt_lyrics, X_lyrics);
+%K_audio = kernel(X_audio, X_audio);
+
+%[yhat_a , ~, ~] = svmpredict((1:size(K_audio, 1))', [(1:size(K_audio,1))' K_audio], model.svm_audio.svm);
+[yhat_l , ~, ~] = svmpredict((1:size(K_lyrics, 1))', ...
+    [(1:size(K_lyrics,1))' K_lyrics], model.svm_lyrics.svm);
+% KNN
+ yhat_a = knn(model.Xt_audio, X_audio, model.Yt, model.K);
+% yhat = knn(model.Xt_lyrics, X_lyrics, model.Yt, model.K);
 
 % Convert into score vector
-scores = zeros(1,10);
-scores(yhat) = 1;
-
-% Convert into ranks
-ranks = get_ranks(scores);
+% w = model.weights;
+ya = get_ranks(yhat_a);
+rest = reshape(ya(ya ~= repmat(yhat_l, 1, 10)), N, 9);
+ranks = [yhat_l rest];
 
