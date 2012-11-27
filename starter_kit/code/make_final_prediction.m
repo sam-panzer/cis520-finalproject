@@ -18,18 +18,21 @@ function ranks = make_final_prediction(model, example)
 % THIS IS JUST AN EXAMPLE
 
 % We only take in one example at a time.
-X = make_lyrics_sparse(example, model.vocab);
-X = X./sum(X); 
+lyrics = make_lyrics_sparse(example, model.vocab);
+audio = make_audio(example);
 
 % Find nearest neighbor
-D = model.Xt*X';
-[~,nn] = max(D);
-yhat = model.Yt(nn);
+%D = model.Xt*X';
+%[~,nn] = max(D);
+%yhat = model.Yt(nn);
+%scores = sqrt((dt_value_ranked(model.lyrics_tree,lyrics))) + sqrt((dt_value_ranked(model.audio_tree,audio))); 
+%scores = sqrt((dt_value_ranked(model.lyrics_tree,lyrics))) + sqrt((dt_value_ranked(model.audio_tree,audio))); 
+%scores = (eval_Stochastic_Bosque(lyrics,model.lyrics_forest)) + (audio,eval_Stochastic_Bosque(model.audio_forest)).^2; 
+scores = (eval_Stochastic_Bosque(audio,model.audio_forest)); 
 
 % Convert into score vector
-scores = zeros(1,10);
-scores(yhat) = 1;
+%scores = zeros(1,10);
+%scores(yhat) = 1;
 
 % Convert into ranks
 ranks = get_ranks(scores);
-

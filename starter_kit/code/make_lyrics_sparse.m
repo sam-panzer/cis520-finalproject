@@ -20,9 +20,9 @@ rowidx = zeros(size(colidx));
 
 idx = 1;
 
-t = CTimeleft(numel(data));
+%t = CTimeleft(numel(data));
 for i = 1:numel(data)
-    t.timeleft();    
+    %t.timeleft();    
     for j = 1:numel(data(i).word_idx)
         rowidx(idx) = i;
         idx = idx + 1;

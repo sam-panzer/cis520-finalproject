@@ -13,5 +13,5 @@ function [model] = init_model(vocab)
 % 5 minutes. Therefore, you should train your model BEFORE submission, save
 % it in a .mat file, and load it here.
 
-load('my_model.mat','model');
+load('forests_model.mat','model');
 
