@@ -20,4 +20,5 @@ while ~node.terminal
         node = node.right;
     end
 end
+
 [~,p] = max(node.value);
