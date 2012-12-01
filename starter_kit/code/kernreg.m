@@ -17,6 +17,6 @@ end
 % By this point votes is an M x 10 matrix such that votes(i,j) should be
 % the weighted vote that example i is labeled j
 
-[null, yhat] = sort(votes, 2, 'descend');
+[~, yhat] = sort(votes, 2, 'descend');
 
 end
