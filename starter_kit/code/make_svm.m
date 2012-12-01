@@ -14,7 +14,7 @@ end
 fprintf('Cross-val chose best C = %g\n', crange(bestc));
 
 % Train and evaluate SVM classifier using libsvm
-model.svm = svmtrain(Y, [(1:size(K,1))' K], sprintf('-t 4 -c %g', crange(bestc)));
-model.K = K;
+model.svm = svmtrain(Y, [(1:size(K,1))' K], sprintf('-t 4 -c %g -b 1', crange(bestc)));
+model.X = X;
 model.kernel = kernel;
 end

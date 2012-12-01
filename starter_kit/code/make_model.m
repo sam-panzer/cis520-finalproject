@@ -1,7 +1,7 @@
 function [model] = make_model(train, vocab)
 
 % Used for all models
-[Xt_lyrics] = make_lyrics_sparse(train, vocab);
+Xt_lyrics = make_lyrics_sparse(train, vocab);
 Xt_audio = make_audio(train);
 
 Yt = zeros(numel(train), 1);
@@ -30,8 +30,8 @@ model.K = 153;
 
 % Used only for SVM
 model.weights = [0.25, 0.75, 0];
-%'Making audio model...'
-%model.svm_audio = make_svm(Xt_audio, Yt, @(x, x2) kernel_poly(x, x2, 1));
-'Making lyrics model...'
-model.svm_lyrics = make_svm(Xt_lyrics, Yt, @kernel_intersection);
+fprintf('Making audio model...\n');
+model.svm_audio = make_svm(Xt_audio , Yt, @kernel_intersection);
+%fprintf('Making lyrics model...\n');
+%model.svm_lyrics = make_svm(Xt_lyrics, Yt, @kernel_intersection);
 end
